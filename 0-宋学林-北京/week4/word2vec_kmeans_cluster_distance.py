@@ -45,7 +45,7 @@ def sentences_to_vectors(sentences, model):
 
 
 def main():
-    model = load_word2vec_model("model.w2v") #加载词向量模型
+    model = load_word2vec_model(r"D:\badou\course\week4 词向量及文本向量\model.w2v") #加载词向量模型
     sentences = load_sentence("titles.txt")  #加载所有标题
     vectors = sentences_to_vectors(sentences, model)   #将所有标题向量化
 
