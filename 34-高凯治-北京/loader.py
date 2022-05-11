@@ -1,111 +1,114 @@
 import json
+import re
+import os
 import torch
 import random
-from torch.utils.data import Dataset, DataLoader
-from collections import defaultdict
+import jieba
+import numpy as np
 from config import Config
-from transformers import BertTokenizer
+from torch.utils.data import DataLoader
 """
 数据加载
 """
 
 
-class DataGenerator(Dataset):
+class Dataset:
     def __init__(self, data_path, config):
-        self.config = config
-        self.path = data_path
-        self.tokenizer = load_vocab(config["vocab_path"])
-        self.config["vocab_size"] = len(self.tokenizer.vocab)
-        self.schema = load_schema(config["schema_path"])
-        self.train_data_size = config["epoch_data_size"]     # 由于采取随机采样，所以需要设定一个采样数量，否则可以一直采
-        self.max_length = config["max_length"]
-        self.data_type = None                                # 用来标识加载的是训练集还是测试集 "train" or "test"
+        self.config = config                                 # 配置信息
+        self.path = data_path                                # 数据路径
+        self.vocab = load_vocab(config["vocab_path"])        # 调用函数，加载词典
+        self.config["vocab_size"] = len(self.vocab)          # 词典长度
+        self.sentences = []                                  # 一维列表，每个元素为从数据文件中加载的一句话（字符串）
+        self.schema = self.load_schema(config["schema_path"])  # 调用函数，加载标签
+        self.config["class_num"] = len(self.schema)          # 标签数量
+        self.max_length = config["max_length"]               # 最大长度
+        self.data = []
         self.load()
 
     def load(self):
-        self.data = []
-        self.knwb = defaultdict(list)
         with open(self.path, encoding="utf8") as f:
-            for line in f:
-                line = json.loads(line)                    # 字符串转字典
-                # 加载训练集
-                if isinstance(line, dict):
-                    self.data_type = "train"
-                    questions = line["questions"]
-                    label = line["target"]
-                    for question in questions:
-                        input_id = self.encode_sentence(question)
-                        input_id = torch.LongTensor(input_id)
-                        self.knwb[self.schema[label]].append(input_id)    # self.knwb->{0：[[],[]...]}
-                # 加载测试集
+            segments = f.read().split("\n")                   # 打开数据集文件，用换行符分割，返回一维列表，每个元素代表一段话
+            for segment in segments:                          # 循环每段话
+                if segment.strip() == "":                     # 如果为空字符则跳到下一段落
+                    continue
+                labels = []                                   # 存放一段话中每个字符的标签
+                for i in range(len(segment)-1):
+                    if segment[i] == '，' or segment[i] == '。' or segment[i] == '？':
+                        pass
+                    elif segment[i+1] == '，':
+                        labels.append(self.schema['，'])
+                    elif segment[i+1] == '。':
+                        labels.append(self.schema['。'])
+                    elif segment[i+1] == '？':
+                        labels.append(self.schema['？'])
+                    else:
+                        labels.append(self.schema[''])
+                if segment[len(segment)-1] == '，' or segment[len(segment)-1] == '，' or segment[len(segment)-1] == '，':
+                    pass
                 else:
-                    self.data_type = "test"
-                    assert isinstance(line, list)
-                    question, label = line
-                    input_id = self.encode_sentence(question)
-                    input_id = torch.LongTensor(input_id)
-                    label_index = torch.LongTensor([self.schema[label]])
-                    self.data.append([input_id, label_index])             # self.data->[[[编码后的输入],[标签索引]],...]
+                    labels.append(self.schema[''])
+                pattern = re.compile('，|。|？')            # 查找'，'，'。'，'？'
+                segment = pattern.sub("", segment)         # 删除
+                for j in range(int(len(segment)/self.max_length) + 1):
+                    sentence = segment[j * self.max_length: (j+1) * self.max_length]
+                    if sentence.strip() == "":             # 如果为空字符则跳到下一句话
+                        continue
+                    self.sentences.append(sentence)
+                    input_ids = self.encode_sentence(sentence)     # 调用编码函数，把每句话转为输入索引
+                    label = labels[j * self.max_length: (j+1) * self.max_length]
+                    label = self.padding(label, -1)                # 用-1填充标签序列
+                    assert len(input_ids) == len(label), (len(input_ids), len(label))
+                    self.data.append([torch.LongTensor(input_ids), torch.LongTensor(label)])  # [[[输入索引],[标签]],...]
         return
 
-    def encode_sentence(self, text):
-        input_id = self.tokenizer.encode(text, max_length=self.max_length, pad_to_max_length=True)
+    def encode_sentence(self, text, padding=True):
+        input_id = []
+        if self.config["vocab_path"] == "words.txt":                        # 如果字典路径为words.txt
+            for word in jieba.cut(text):                                    # 使用结巴对每句话分词
+                input_id.append(self.vocab.get(word, self.vocab["[UNK]"]))  # 把分词结果中每个词在字典中对应的序号添加到input_id
+        else:
+            for char in text:
+                # 字典路径为char.txt，把每句话中的每个字符在字典中对应的序号添加到input_id
+                input_id.append(self.vocab.get(char, self.vocab["[UNK]"]))
+        if padding:
+            input_id = self.padding(input_id)  # 如果填充输入索引的话，调用填充函数
+        return input_id                        # 返回一维列表
+
+        # 补齐或截断输入的序列，使其可以在一个batch内运算
+
+    def padding(self, input_id, pad_token=0):
+        input_id = input_id[:self.config["max_length"]]                        # 截断
+        input_id += [pad_token] * (self.config["max_length"] - len(input_id))  # 用0补齐
         return input_id
 
+    def load_schema(self, path):
+        with open(path, encoding="utf8") as f:    # 打开标签文件，把文件内容转为dict
+            return json.load(f)
+
     def __len__(self):
-        if self.data_type == "train":
-            return self.config["epoch_data_size"]               # 训练数据长度为超参数
-        else:
-            assert self.data_type == "test", self.data_type     # 测试数据长度可变
-            return len(self.data)
+        return len(self.data)
 
     def __getitem__(self, index):
-        if self.data_type == "train":
-            return self.random_train_sample()                   # 随机生成一个训练样本
-        else:
-            return self.data[index]
-
-    # 依照一定概率生成负样本或正样本
-    # 负样本从随机两个不同的标准问题中各随机选取一个
-    # 正样本从随机一个标准问题中随机选取两个
-    def random_train_sample(self):
-        standard_question_index = list(self.knwb.keys())        # 知识库的所有键（即标准问对应的标签）转为列表
-        # 随机正样本
-        if random.random() <= self.config["positive_sample_rate"]:
-            p = random.choice(standard_question_index)          # 返回一个列表，元组或字符串的随机项
-            # 如果选取到的标准问下不足两个问题，则无法选取，所以重新随机一次
-            if len(self.knwb[p]) < 2:
-                return self.random_train_sample()
-            else:
-                s1, s2 = random.sample(self.knwb[p], 2)         # 从列表中随机采样两个元素
-                return [s1, s2, torch.LongTensor([1])]          # [[],[],[1]]
-        # 随机负样本
-        else:
-            p, n = random.sample(standard_question_index, 2)     # 随机采样两个标准问
-            s1 = random.choice(self.knwb[p])                     # 返回一个列表，元组或字符串的随机项
-            s2 = random.choice(self.knwb[n])
-            return [s1, s2, torch.LongTensor([0])]              # [[],[],[0]]
+        return self.data[index]
 
 
-# 加载词元化器
+# 加载字表或词表
 def load_vocab(vocab_path):
-    tokenizer = BertTokenizer(vocab_path)
-    return tokenizer
-
-
-# 加载schema
-def load_schema(schema_path):
-    with open(schema_path, encoding="utf8") as f:
-        return json.loads(f.read())                             # f.read()读整个文件，返回字符串类型
+    token_dict = {}
+    with open(vocab_path, encoding="utf8") as f:
+        for index, line in enumerate(f):
+            token = line.strip()
+            token_dict[token] = index + 1        # 0留给padding位置，所以从1开始
+    return token_dict
 
 
 # 用torch自带的DataLoader类封装数据
 def load_data(data_path, config, shuffle=True):
-    dg = DataGenerator(data_path, config)
-    dl = DataLoader(dg, batch_size=config["batch_size"], shuffle=shuffle, drop_last=True)
+    dg = Dataset(data_path, config)
+    dl = DataLoader(dg, batch_size=config["batch_size"], shuffle=shuffle)
     return dl
 
 
 if __name__ == "__main__":
-    dg = DataGenerator(Config["train_data_path"], Config)
-    print(dg[0])
+    # dg = DataGenerator("../ner_data/train.txt", Config)
+    pass
