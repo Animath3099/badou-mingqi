@@ -1,0 +1,85 @@
+类别,分类器,precision,recall,f1-score,support
+accuracy,<class 'sklearn.naive_bayes.GaussianNB'>,0.38055555555555554,0.38055555555555554,0.38055555555555554,0.38055555555555554
+accuracy,<class 'sklearn.svm._classes.SVC'>,0.44166666666666665,0.44166666666666665,0.44166666666666665,0.44166666666666665
+accuracy,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2916666666666667,0.2916666666666667,0.2916666666666667,0.2916666666666667
+accuracy,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.4722222222222222,0.4722222222222222,0.4722222222222222,0.4722222222222222
+macro avg,<class 'sklearn.naive_bayes.GaussianNB'>,0.33563882176773274,0.3680943188571515,0.33164587213680535,360.0
+macro avg,<class 'sklearn.svm._classes.SVC'>,0.4564041058343303,0.43905685949640944,0.4157642169645057,360.0
+macro avg,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2981308324036521,0.2928228334887486,0.287231449035502,360.0
+macro avg,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.46358868440481793,0.4693236753325594,0.45701612508518363,360.0
+weighted avg,<class 'sklearn.naive_bayes.GaussianNB'>,0.3505579644516283,0.38055555555555554,0.3449349434166625,360.0
+weighted avg,<class 'sklearn.svm._classes.SVC'>,0.4631062515316256,0.44166666666666665,0.4223591612969014,360.0
+weighted avg,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.3080868925572078,0.2916666666666667,0.2913548688906064,360.0
+weighted avg,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.4752866107172523,0.4722222222222222,0.46416577133841913,360.0
+体育,<class 'sklearn.naive_bayes.GaussianNB'>,0.275,0.6470588235294118,0.3859649122807018,17.0
+体育,<class 'sklearn.svm._classes.SVC'>,0.2702702702702703,0.5882352941176471,0.37037037037037035,17.0
+体育,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.15384615384615385,0.23529411764705882,0.186046511627907,17.0
+体育,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.20833333333333334,0.29411764705882354,0.24390243902439027,17.0
+健康,<class 'sklearn.naive_bayes.GaussianNB'>,0.7407407407407407,0.9090909090909091,0.8163265306122449,22.0
+健康,<class 'sklearn.svm._classes.SVC'>,0.8076923076923077,0.9545454545454546,0.875,22.0
+健康,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.7083333333333334,0.7727272727272727,0.7391304347826088,22.0
+健康,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.7407407407407407,0.9090909090909091,0.8163265306122449,22.0
+军事,<class 'sklearn.naive_bayes.GaussianNB'>,0.23255813953488372,0.43478260869565216,0.30303030303030304,23.0
+军事,<class 'sklearn.svm._classes.SVC'>,0.1935483870967742,0.2608695652173913,0.2222222222222222,23.0
+军事,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.15384615384615385,0.08695652173913043,0.1111111111111111,23.0
+军事,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.4,0.34782608695652173,0.37209302325581395,23.0
+国际,<class 'sklearn.naive_bayes.GaussianNB'>,0.23529411764705882,0.21052631578947367,0.2222222222222222,19.0
+国际,<class 'sklearn.svm._classes.SVC'>,0.3,0.47368421052631576,0.3673469387755102,19.0
+国际,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.25925925925925924,0.3684210526315789,0.30434782608695654,19.0
+国际,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.4090909090909091,0.47368421052631576,0.43902439024390244,19.0
+娱乐,<class 'sklearn.naive_bayes.GaussianNB'>,0.7058823529411765,0.5217391304347826,0.6,23.0
+娱乐,<class 'sklearn.svm._classes.SVC'>,0.6666666666666666,0.5217391304347826,0.5853658536585366,23.0
+娱乐,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2857142857142857,0.2608695652173913,0.2727272727272727,23.0
+娱乐,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.75,0.391304347826087,0.5142857142857143,23.0
+家居,<class 'sklearn.naive_bayes.GaussianNB'>,0.3333333333333333,0.8,0.47058823529411764,20.0
+家居,<class 'sklearn.svm._classes.SVC'>,0.625,0.75,0.6818181818181818,20.0
+家居,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.47368421052631576,0.45,0.46153846153846156,20.0
+家居,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.6818181818181818,0.75,0.7142857142857143,20.0
+彩票,<class 'sklearn.naive_bayes.GaussianNB'>,0.6428571428571429,0.8181818181818182,0.7200000000000001,22.0
+彩票,<class 'sklearn.svm._classes.SVC'>,0.6666666666666666,0.8181818181818182,0.7346938775510203,22.0
+彩票,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.5454545454545454,0.2727272727272727,0.3636363636363636,22.0
+彩票,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.7307692307692307,0.8636363636363636,0.7916666666666666,22.0
+房产,<class 'sklearn.naive_bayes.GaussianNB'>,0.2857142857142857,0.07692307692307693,0.12121212121212123,26.0
+房产,<class 'sklearn.svm._classes.SVC'>,0.14285714285714285,0.038461538461538464,0.060606060606060615,26.0
+房产,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2222222222222222,0.15384615384615385,0.18181818181818185,26.0
+房产,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.35294117647058826,0.23076923076923078,0.2790697674418605,26.0
+教育,<class 'sklearn.naive_bayes.GaussianNB'>,0.2,0.15789473684210525,0.17647058823529413,19.0
+教育,<class 'sklearn.svm._classes.SVC'>,0.4444444444444444,0.42105263157894735,0.43243243243243246,19.0
+教育,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.18181818181818182,0.21052631578947367,0.1951219512195122,19.0
+教育,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.45,0.47368421052631576,0.46153846153846156,19.0
+文化,<class 'sklearn.naive_bayes.GaussianNB'>,0.1111111111111111,0.0625,0.08,16.0
+文化,<class 'sklearn.svm._classes.SVC'>,0.125,0.0625,0.08333333333333333,16.0
+文化,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.20833333333333334,0.3125,0.25,16.0
+文化,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.25,0.25,0.25,16.0
+旅游,<class 'sklearn.naive_bayes.GaussianNB'>,0.5,0.52,0.5098039215686274,25.0
+旅游,<class 'sklearn.svm._classes.SVC'>,0.5,0.48,0.4897959183673469,25.0
+旅游,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.42857142857142855,0.24,0.30769230769230765,25.0
+旅游,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.5,0.52,0.5098039215686274,25.0
+时尚,<class 'sklearn.naive_bayes.GaussianNB'>,0.5555555555555556,0.5555555555555556,0.5555555555555556,18.0
+时尚,<class 'sklearn.svm._classes.SVC'>,0.5217391304347826,0.6666666666666666,0.5853658536585366,18.0
+时尚,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.28,0.3888888888888889,0.32558139534883723,18.0
+时尚,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.631578947368421,0.6666666666666666,0.6486486486486486,18.0
+汽车,<class 'sklearn.naive_bayes.GaussianNB'>,0.4,0.2727272727272727,0.3243243243243243,22.0
+汽车,<class 'sklearn.svm._classes.SVC'>,0.5625,0.4090909090909091,0.47368421052631576,22.0
+汽车,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2857142857142857,0.2727272727272727,0.2790697674418604,22.0
+汽车,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.3888888888888889,0.3181818181818182,0.35000000000000003,22.0
+游戏,<class 'sklearn.naive_bayes.GaussianNB'>,0.0,0.0,0.0,18.0
+游戏,<class 'sklearn.svm._classes.SVC'>,1.0,0.1111111111111111,0.19999999999999998,18.0
+游戏,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2,0.2222222222222222,0.2105263157894737,18.0
+游戏,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.3333333333333333,0.16666666666666666,0.2222222222222222,18.0
+社会,<class 'sklearn.naive_bayes.GaussianNB'>,0.125,0.045454545454545456,0.06666666666666667,22.0
+社会,<class 'sklearn.svm._classes.SVC'>,0.5,0.2727272727272727,0.3529411764705882,22.0
+社会,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.3333333333333333,0.2727272727272727,0.3,22.0
+社会,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.47368421052631576,0.4090909090909091,0.43902439024390244,22.0
+科技,<class 'sklearn.naive_bayes.GaussianNB'>,0.2,0.07692307692307693,0.1111111111111111,13.0
+科技,<class 'sklearn.svm._classes.SVC'>,0.2777777777777778,0.38461538461538464,0.3225806451612903,13.0
+科技,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.13043478260869565,0.23076923076923078,0.16666666666666669,13.0
+科技,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.3333333333333333,0.46153846153846156,0.3870967741935484,13.0
+股票,<class 'sklearn.naive_bayes.GaussianNB'>,0.2631578947368421,0.29411764705882354,0.27777777777777773,17.0
+股票,<class 'sklearn.svm._classes.SVC'>,0.3333333333333333,0.4117647058823529,0.36842105263157887,17.0
+股票,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.3157894736842105,0.35294117647058826,0.33333333333333337,17.0
+股票,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.35714285714285715,0.5882352941176471,0.4444444444444445,17.0
+财经,<class 'sklearn.naive_bayes.GaussianNB'>,0.23529411764705882,0.2222222222222222,0.22857142857142856,18.0
+财经,<class 'sklearn.svm._classes.SVC'>,0.2777777777777778,0.2777777777777778,0.2777777777777778,18.0
+财经,<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.2,0.16666666666666666,0.1818181818181818,18.0
+财经,<class 'sklearn.ensemble._forest.RandomForestClassifier'>,0.35294117647058826,0.3333333333333333,0.34285714285714286,18.0
